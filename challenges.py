@@ -1,5 +1,5 @@
 import sys
-from AOC_eighteen import Challenges
+from AOC_18 import Challenges
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
