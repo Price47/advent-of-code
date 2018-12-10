@@ -1,4 +1,4 @@
-FREQUENCIES = [-2,
+day_8FREQUENCIES = [-2,
 -6,
 +2,
 -10,

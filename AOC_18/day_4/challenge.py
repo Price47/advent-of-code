@@ -10,32 +10,31 @@ def _sort_log(log):
     sorted_log = sorted(compiled_log, key=itemgetter(0))
     return sorted_log
 
-def _format(timestamp, message):
-    date = datetime(day=timestamp.day, month=timestamp.month, year=1900)
-    return {'date': date.strftime('%m-%d'), 'minute': timestamp.minute, 'message': message.strip()}
+def _format(entry):
+    message = re.split(r'(\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\])', entry)[1:]
+    date = datetime.strptime(message[0], '[%Y-%m-%d %H:%M:%f]')
+    date = date.replace(year=1900)
+    return {'date': date.strftime('%m-%d'), 'minute': date.minute, 'message': message[1].strip()}
 
 def _analyze_guard_habits(log):
     guard_habits = {}
-    log_index = 0
-    while log_index < len(log):
-        timestamp, message = log[log_index]
-        log_index += 1
-        if 'Guard #' in message:
-            guard_number = re.findall('(?<=#)\d+', message)[0]
-            for related_timestamp, related_message in log[log_index:]:
-                if 'Guard #' in related_message:
-                    log = log[log_index:]
-                    break
-                else:
-                    try:
-                        guard_habits[guard_number].append(_format(related_timestamp, related_message))
-                    except:
-                        guard_habits[guard_number] = [_format(related_timestamp, related_message)]
+    log = "|".join(["[{}] {}".format(timestamp, message) for timestamp, message in log])
+    log_lines = re.split(r'\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\]\s*Guard',log)[1:]
+    for line in log_lines:
+        guard_data = line.split("|")
+        guard_number = re.findall('(?<=#)\d+', guard_data[0])[0]
+        for entry in guard_data[1:]:
+            if entry:
+                try:
+                    guard_habits[guard_number].append(_format(entry))
+                except:
+                    guard_habits[guard_number] = [_format(entry)]
+
     return guard_habits
 
 def _group_guard_habits(habits):
     grouped_guard_habits = {}
-    for guard_number, habits in guard_habits.items():
+    for guard_number, habits in habits.items():
         grouped_guard_habits[guard_number] = {}
         sorted_guard_habits = sorted(habits, key=itemgetter('date'))
         grouped = groupby(sorted_guard_habits, key=itemgetter('date'))
@@ -53,7 +52,7 @@ def _get_sleep_patterns(grouped_guard_habits):
             minutes_asleep = {}
             last_index = 0
             for time_group in time_sorted_grouped_habit:
-                asleep = time_group['message'] == 'falls asleep'
+                asleep = time_group['message'] != 'falls asleep'
                 minute = time_group['minute']
                 time_group_minutes = {i: asleep for i in range(last_index, minute)}
                 minutes_asleep.update(time_group_minutes)
@@ -86,28 +85,74 @@ def _most_common_minutes(guard_sleep_habits):
         guard_most_common_minutes[guard] = (common_minutes, minutes_slept)
     return guard_most_common_minutes
 
-def day_4_part_1(log):
-    pass
+def _get_most_common_minute(sorted_sleepiest_guard, guard_sleep_habits):
+    sleepiest_guard, minutes_slept = sorted_sleepiest_guard
+    minutes_asleep = [
+        set([minute for minute, asleep in minutes.items() if asleep])
+        for date, minutes in guard_sleep_habits[sleepiest_guard].items()
+        ]
 
-def day_4_part_2(log):
-    pass
+    minute_count = {i: 0 for i in range(60)}
 
+    for minutes_asleep_set in minutes_asleep:
+        for minute in minutes_asleep_set:
+            minute_count[minute] += 1
 
-def main():
-    print("Overlapping Fabric (in square inches): {} ".format(day_4_part_1(LOG)))
-    print("None overlapping claim id: {}".format(day_3_part_2(CLAIMS)))
+    return [(minute, count) for minute, count in minute_count.items()]
 
-if __name__ == '__main__':
+def calculate_times():
     sorted_log = _sort_log(LOG)
     guard_habits = _analyze_guard_habits(sorted_log)
     grouped_guard_habits = _group_guard_habits(guard_habits)
     guard_sleep_habits = _get_sleep_patterns(grouped_guard_habits)
-    # print(guard_sleep_habits)
     guard_most_common_minutes = _most_common_minutes(guard_sleep_habits)
-    sleepiest_guards = [(guard, minutes_slept) for guard, (sleep_set, minutes_slept) in guard_most_common_minutes.items()]
+    sleepiest_guards = [(guard, minutes_slept) for guard, (sleep_set, minutes_slept) in
+                        guard_most_common_minutes.items()]
     sorted_sleepiest_guards = sorted(sleepiest_guards, key=itemgetter(1), reverse=True)
-    sleepiest_guard, minutes_slept = sleepiest_guards[0]
-    print(guard_sleep_habits[sleepiest_guard])
+
+    return sorted_sleepiest_guards, guard_sleep_habits
+
+def day_4_part_1(log):
+    sorted_sleepiest_guards, guard_sleep_habits = calculate_times()
+
+    like_minutes = _get_most_common_minute(sorted_sleepiest_guards[0], guard_sleep_habits)
+    sorted_like_minutes = sorted(like_minutes, key=itemgetter(1), reverse=True)
+
+    sleepiest_guard = sorted_sleepiest_guards[0][0]
+    most_slept_minute = sorted_like_minutes[0][0]
+    total = int(sleepiest_guard) * int(most_slept_minute)
+
+    return sleepiest_guard, most_slept_minute, total
+
+def day_4_part_2(log):
+    sorted_sleepiest_guards, guard_sleep_habits = calculate_times()
+
+    like_minutes = {}
+    for guard in sorted_sleepiest_guards:
+        like_minutes[guard[0]] = sorted(_get_most_common_minute(guard, guard_sleep_habits),
+                                        key=itemgetter(1),
+                                        reverse=True)[0]
+    sorted_most_frequently_sleepy_guard = sorted(
+        [(guard, minute, count) for guard, (minute, count) in like_minutes.items()],
+        key=itemgetter(2),
+        reverse=True
+    )
+
+    return sorted_most_frequently_sleepy_guard[0]
+
+
+def main():
+    sleepiest_guard, most_slept_minute, total = day_4_part_1(LOG)
+    print("Gaurd {} is most asleep at minute {} ({})".format(sleepiest_guard, most_slept_minute, total))
+    frequently_sleepy_guard, minute_asleep, times_asleep = day_4_part_2(LOG)
+    print("Guard {} most frequently asleep at {} ({} times) [answer: {}]"
+          .format(frequently_sleepy_guard, minute_asleep,
+                  times_asleep,
+                  (int(frequently_sleepy_guard) * int(minute_asleep)))
+          )
+
+if __name__ == '__main__':
+    main()
 
 
 
