@@ -1,1 +1,1 @@
-from challenge import main
+from AOC_18.day_5.challenge import main
