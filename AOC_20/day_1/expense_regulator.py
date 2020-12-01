@@ -28,6 +28,14 @@ class expenseRegulator:
         self.expenses_size = len(self.expenses)
 
     def find_sums_recursive(self, depth=2, pointer_index=0, current_depth=0):
+        """
+        Recursively cycle through list and check sum of values
+        
+        :param depth:
+        :param pointer_index:
+        :param current_depth:
+        :return:
+        """
         while pointer_index < self.expenses_size and not self.expenses_resolved:
             log.debug(f'pointer at depth {current_depth} is {pointer_index}')
             depth_pointer = pointer_index
@@ -49,6 +57,12 @@ class expenseRegulator:
 
 
     def resolve_accounts_recursive(self, n=3):
+        """
+        Find n number of values that combine to equal self.sum_total in a list
+
+        :param n: int, values to combine
+        :return: int, values multiplied together
+        """
         self._read_expenses()
         self.find_sums_recursive(n)
 
