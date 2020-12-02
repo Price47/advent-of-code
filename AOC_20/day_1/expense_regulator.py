@@ -30,7 +30,7 @@ class expenseRegulator:
     def find_sums_recursive(self, depth=2, pointer_index=0, current_depth=0):
         """
         Recursively cycle through list and check sum of values
-        
+
         :param depth:
         :param pointer_index:
         :param current_depth:
