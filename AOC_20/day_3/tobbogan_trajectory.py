@@ -6,6 +6,11 @@ from core import DefaultLogger, AOCBase
 log = DefaultLogger.get_log()
 
 class TobboganTrajectory(AOCBase):
+    """
+    https://adventofcode.com/2020/day/3
+
+    Determine best tobbogan trajectory
+    """
 
     def __init__(self):
         self.hill = self.read_input()

@@ -4,6 +4,11 @@ from core import DefaultLogger
 log = DefaultLogger.get_log()
 
 class PasswordScrubber:
+    """
+    https://adventofcode.com/2020/day/2
+
+    Find faulty passwords
+    """
 
     def _parse_policy(self, p):
         limits, value = p.split(' ')

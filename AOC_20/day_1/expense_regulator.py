@@ -8,7 +8,9 @@ log = DefaultLogger().get_log()
 
 class expenseRegulator:
     """
-    resolve expense accounts
+    https://adventofcode.com/2020/day/1
+
+    Resolve expense accounts
     """
     def __init__(self, sum_val=2020, expenses=None):
         self.expenses = expenses
