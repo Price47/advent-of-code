@@ -3,13 +3,16 @@ import sys
 
 class AOCBase:
 
-    def read_input(self):
+    def read_input(self, type_cast=None):
         file_path = sys.argv[0]
         dir_root = '/'.join(file_path.split('/')[:-1])
 
         with open(f'{dir_root}/input.txt') as f:
             content = f.read()
             lines = content.splitlines()
+
+        if type_cast:
+            lines = [type_cast(line) for line in lines]
 
         return lines
 
