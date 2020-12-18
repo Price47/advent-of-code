@@ -7,7 +7,7 @@ log = DefaultLogger.get_log()
 
 class CoordinateHandler(AOCBase):
     """
-    https://adventofcode.com/2020/day/9
+    https://adventofcode.com/2020/day/12
 
     """
     def __init__(self):
