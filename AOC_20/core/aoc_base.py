@@ -26,5 +26,9 @@ class AOCBase:
         s = f'{s[:il]}{highlighter}{s[il:ih+1]}{reset}{s[ih+1:]}'
         print(s)
 
+    def split_indices(self, d):
+        return [i for i in range(len(d)) if d[i] == '']
+
+
 if __name__ == '__main__':
     AOCBase().read_input()

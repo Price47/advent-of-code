@@ -40,7 +40,6 @@ class BitmaskDecoder(AOCBase):
     def mask_to_memory(self, c, m):
         for i in range(len(self.mask)-1, -1, -1):
             mask_val = self.mask[i]
-            log.warning(i)
             if c:
                 char = c.pop()
             else:
@@ -66,8 +65,21 @@ class BitmaskDecoder(AOCBase):
             else:
                 mem, val = self._parse_command(d)
                 self.mask_to_memory(val, mem)
-            log.info(self.mask)
 
-        # self.print_mem()
         log.info(f'memory sum is {self.sum_mem()}')
+
+
+class BitmaskDecoderV2(BitmaskDecoder):
+
+    def mask_to_memory(self, c, m):
+        for i in range(len(self.mask) - 1, -1, -1):
+            mask_val = self.mask[i]
+            if c:
+                char = c.pop()
+            else:
+                char = '0'
+            if mask_val == 'X':
+                self.mem[m][i] = char
+            else:
+                self.mem[m][i] = mask_val
 
