@@ -52,6 +52,3 @@ class Submarine(AOCBase):
         data = data or self.read_input()
         log.info(f"Simple dive position: {self.easy_dive(data)}")
         log.info(f"Dive position: {self.aimed_dive(data)}")
-
-
-
