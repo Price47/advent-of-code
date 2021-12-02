@@ -1,5 +1,3 @@
-import os
-from functools import reduce
 from core import DefaultLogger, AOCBase
 
 
@@ -18,6 +16,3 @@ class Sonar(AOCBase):
         data = data or self.read_input(int)
         log.info(f"Sonar sweep is {self.sonar(data)}")
         log.info(f"Sonar window sweep is {self.sonar_window(data)}")
-
-
-

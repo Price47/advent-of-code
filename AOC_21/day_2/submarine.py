@@ -1,5 +1,3 @@
-import os
-from functools import reduce
 from core import DefaultLogger, AOCBase
 
 
@@ -26,7 +24,6 @@ class Submarine(AOCBase):
         self.drive(n)
         self.depth += self.aim * n
 
-
     def initiate_dive(self, data, commands):
         for line in data:
             c, n = line.split(' ')
@@ -41,11 +38,11 @@ class Submarine(AOCBase):
         return self.depth * self.horizontal
 
     def aimed_dive(self, data):
-        commands = {'forward': lambda n: self.aimed_drive(n),
+        dive_inputs = {'forward': lambda n: self.aimed_drive(n),
                     'down': lambda n: self.adjust_aim(n),
                     'up': lambda n: self.adjust_aim(-n)}
 
-        self.initiate_dive(data, commands)
+        self.initiate_dive(data, dive_inputs)
         return self.depth * self.horizontal
 
     def run(self, data=None):
