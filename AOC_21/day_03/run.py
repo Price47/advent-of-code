@@ -1,4 +1,4 @@
-from .day import day
+from .diagnostic import Diagnostic
 
 if __name__ == '__main__':
     test = [
@@ -15,5 +15,5 @@ if __name__ == '__main__':
         '00010',
         '01010',
     ]
-    d = day()
-    d.run(test)
+    d = Diagnostic()
+    d.run()
