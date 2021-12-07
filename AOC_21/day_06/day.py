@@ -35,7 +35,7 @@ class School(AOCBase):
             fish[7] = fish[8]
             fish[8] = new_fish
 
-        print(sum([f for f in fish]))
+        log.info(f"Total Lattern fish after {self.growth_simulation_days}: {(sum([f for f in fish]))}")
 
 
     def run(self, data=None):
