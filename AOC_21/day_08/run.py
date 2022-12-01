@@ -1,4 +1,4 @@
-from .displaydebugger import DisplayDebugger
+from .display_debugger import DisplayDebugger
 
 if __name__ == '__main__':
     test = [
