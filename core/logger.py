@@ -38,7 +38,7 @@ class DefaultLogger():
 
     @staticmethod
     def get_log():
-        log = logging.getLogger(__name__)
+        log = logging.getLogger("Default Logger")
         log.setLevel(logging.DEBUG)
 
         handler = logging.StreamHandler()
