@@ -13,7 +13,7 @@ score_map = {
 
 class day(AOCBase):
     def __init__(self, data=None):
-        self.data = data or self.read_input()
+        super().__init__(data)
         self.score_map = {
             # Rock / Rock
             "A X": score_map["X"] + 3,

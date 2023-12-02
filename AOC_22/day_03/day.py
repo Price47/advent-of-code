@@ -19,9 +19,6 @@ class rucksack:
 
 
 class day(AOCBase):
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
     def check_rucksack_compartments(self):
         item_sum = 0
         for d in self.data:

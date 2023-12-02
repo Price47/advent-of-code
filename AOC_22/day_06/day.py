@@ -4,11 +4,7 @@ from AOC_22.device import Device
 log = DefaultLogger().get_log()
 
 
-
 class day(AOCBase):
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
     def run(self):
         d = Device(data_stream=self.data[0])
 

@@ -5,9 +5,6 @@ log = DefaultLogger().get_log()
 
 
 class day(AOCBase):
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
     def organize_snacks(self):
         sum = 0
         sums = []

@@ -21,9 +21,6 @@ class TrebuchetCalculator(AOCBase):
     """
     https://adventofcode.com/2023/day/1
     """
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
     def _is_int(self, char):
         try:
             return int(char)

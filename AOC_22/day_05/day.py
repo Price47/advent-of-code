@@ -7,9 +7,6 @@ log = DefaultLogger().get_log()
 
 
 class day(AOCBase):
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
     def parse_input(self):
         input_commands_index = 0
 

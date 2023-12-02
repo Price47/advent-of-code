@@ -8,10 +8,7 @@ from core import DefaultLogger, AOCBase, AOCStr as astr
 log = DefaultLogger().get_log()
 COLOR_MAX_MAP = Dict[astr, defaultdict[str, int]]
 
-class day(AOCBase):
-    def __init__(self, data=None):
-        self.data = data or self.read_input()
-
+class GameCube(AOCBase):
     def minimum_cubes_required(self, game_cube_color_max_map: COLOR_MAX_MAP):
         total_cubes = {"blue": 14, "red": 12, "green": 13}
 

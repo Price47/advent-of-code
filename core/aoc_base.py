@@ -13,6 +13,8 @@ class AOCStr(str):
 
 
 class AOCBase:
+    def __init__(self, data=None):
+        self.data = data or self.read_input()
 
     def read_input(self, type_cast=None):
         file_path = sys.argv[0]
