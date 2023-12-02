@@ -1,5 +1,16 @@
 import sys
 
+# Built-in namespace
+import builtins
+
+# Extended subclass
+class AOCStr(str):
+    def strip_split(self, split_val=","):
+        if self:
+            return self.strip().split(split_val)
+        else:
+            return ''
+
 
 class AOCBase:
 
