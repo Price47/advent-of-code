@@ -44,16 +44,21 @@ class day(AOCBase):
         return engine_parts
 
 
+    def check_engine_part_adjacency(self, row, col, engine_part, fn):
+        for row_delta in range(-1, 2):
+            r = min(max(row + row_delta, 0), len(self.data) - 1)
+            for c in range(max(col - 1, 0), min(col + len(engine_part) + 1, len(self.data[row]))):
+                char = self.data[r][c]
+                return fn(char, engine_part)
+                # if not self.is_int(char, astr) and char != ".":
+                #     return int(engine_part)
 
     def engine_part_value(self, row, col, engine_part) -> int:
-        for row_delta in range(-1, 2):
-            r = min(max(row+row_delta, 0), len(self.data)-1)
-            for c in range(max(col-1, 0), min(col+len(engine_part)+1, len(self.data[row]))):
-                char = self.data[r][c]
-                if not self.is_int(char, astr) and char != ".":
-                    return int(engine_part)
-                
-        return 0
+        def _fn(char: str, engine_part: astr):
+            if not self.is_int(char, astr) and char != ".":
+                return int(engine_part)
+
+        return self.check_engine_part_adjacency(row, col, engine_part, _fn) or 0
 
     def find_gear_pairs(self, row, col, engine_part):
         for row_delta in range(-1, 2):
@@ -93,89 +98,3 @@ class day(AOCBase):
     def run(self):
         self.find_part_numbers()
         self.find_gear_ratios()
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-# from typing import List, Tuple
-#
-# from core import DefaultLogger, AOCBase, AOCStr as astr
-#
-#
-# log = DefaultLogger().get_log()
-#
-# dirs = {
-#     "up-left": (-1, -1),
-#     "down": (-1,0),
-#     "up-right": (-1,1),
-#     "right": (0,1),
-#     "left": (0,-1),
-#     "down-left": (1, -1),
-#     "up": (1,0),
-#     "down-right": (1,1)
-# }
-#
-# class day(AOCBase):
-#
-#     def check_adjacent(self, row: int, col: int):
-#         adjecents = set()
-#         for direction in dirs.values():
-#             try:
-#                 delta_row, delta_col = direction
-#                 adj_val = self.data[row+delta_row][col+delta_col]
-#                 if self.is_int(adj_val, astr):
-#                     adjecents.add(self._engine_part_number(row+delta_row, col+delta_col, adj_val))
-#             except Exception as exc:
-#                 log.error(exc)
-#                 log.info(f"{row+delta_row}, {col+delta_col}: {adj_val}")
-#
-#         return adjecents
-#
-#
-#     def _engine_part_number(self, row: int, col: int, part_number_sequence: astr = "") -> astr:
-#         # left
-#         c = col
-#         while c > 0:
-#             c -= 1
-#             if preceeding_part_number_sequence := self.is_int(self.data[row][c], astr):
-#                 part_number_sequence = preceeding_part_number_sequence + part_number_sequence
-#             else:
-#                 break
-#
-#         # right
-#         c = col
-#         while c < len(self.data[row])-1:
-#             c+=1
-#             if proceeding_part_number_sequence := self.is_int(self.data[row][c], astr):
-#                 part_number_sequence += proceeding_part_number_sequence
-#             else:
-#                 break
-#
-#         return part_number_sequence
-#
-#     def find_part_numbers(self):
-#         real_ones = set()
-#
-#         for row in range(len(self.data)):
-#             for col in range(len(self.data[row])):
-#                 char = self.data[row][col]
-#                 if self.is_int(char) is None and char != ".":
-#                     real_ones = real_ones | self.check_adjacent(row, col)
-#
-#         log.warning(real_ones)
-#         log.info(sum([int(engine_part) for engine_part in real_ones]))
-#
-#     def run(self):
-#         log.info(len(self.data))
-#         log.info(len(self.data[0]))
-#         self.find_part_numbers()
