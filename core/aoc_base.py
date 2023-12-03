@@ -42,6 +42,12 @@ class AOCBase:
     def split_indices(self, d):
         return [i for i in range(len(d)) if d[i] == '']
 
+    def is_int(self, char, return_cast=int):
+        try:
+            return return_cast(int(char))
+        except ValueError:
+            pass
+
 
 if __name__ == '__main__':
     AOCBase().read_input()

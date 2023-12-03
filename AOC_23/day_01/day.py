@@ -21,12 +21,6 @@ class TrebuchetCalculator(AOCBase):
     """
     https://adventofcode.com/2023/day/1
     """
-    def _is_int(self, char):
-        try:
-            return int(char)
-        except ValueError:
-            pass
-
     def _check_key(self, line: str, idx: int, reverse: bool) -> Optional[int]:
         for key in string_map.keys():
             # Get string value if it exists in this index
@@ -35,7 +29,7 @@ class TrebuchetCalculator(AOCBase):
                 return string_map[key]
 
     def can_equal(self, line: str, idx: int, reverse=False, check_string_repr=True):
-        if self._is_int(line[idx]):
+        if self.is_int(line[idx]):
             return line[idx]
         if check_string_repr:
             return self._check_key(line, idx, reverse)
