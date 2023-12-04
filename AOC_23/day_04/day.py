@@ -39,12 +39,12 @@ class Card:
         return f"Card {self.card_no} ({self.instances})"
 
 
-class day(AOCBase):
+class Scratchers(AOCBase):
 
-    def check_card_points(self):
+    def check_card_points(self) -> int:
         return sum([Card(card).card_points for card in self.data])
 
-    def actual_parse_scratcher(self):
+    def scratcher_cards_won(self):
         cards = {card.card_no: card for card in [Card(card) for card in self.data]}
 
         for card_no, card in cards.items():
@@ -59,11 +59,7 @@ class day(AOCBase):
         log.info(f"Scratchers are worth {card_values} elf dollars")
         assert card_values == 23441
 
-        cards = self.actual_parse_scratcher()
+        cards = self.scratcher_cards_won()
         total_cards = sum([card.instances for card in cards.values()])
         log.info(f"{total_cards} Scratchers won")
         assert total_cards == 5923918
-
-
-
-

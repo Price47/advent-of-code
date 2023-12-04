@@ -1,6 +1,6 @@
-from .day import day
+from .day import Scratchers
 
 if __name__ == '__main__':
     test = []
-    d = day(test)
+    d = Scratchers(test)
     d.run()
