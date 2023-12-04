@@ -1,8 +1,5 @@
 import sys
 
-# Built-in namespace
-import builtins
-
 # Extended subclass
 class AOCStr(str):
     def strip_split(self, split_val=","):
@@ -16,7 +13,7 @@ class AOCBase:
     def __init__(self, data=None):
         self.data = data or self.read_input()
 
-    def read_input(self, type_cast=None):
+    def read_input(self, type_cast=AOCStr):
         file_path = sys.argv[0]
         dir_root = '/'.join(file_path.split('/')[:-1])
 
