@@ -1,6 +1,10 @@
 import sys
 
 # Extended subclass
+from functools import reduce
+from typing import List
+
+
 class AOCStr(str):
     def strip_split(self, split_val=","):
         if self:
@@ -44,6 +48,9 @@ class AOCBase:
             return return_cast(int(char))
         except ValueError:
             pass
+
+    def mult(self, l: List):
+        return reduce(lambda x, y: x * y, l)
 
 
 if __name__ == '__main__':
